@@ -20,7 +20,8 @@ class ProductService:
             description=product_data.description,
             price=product_data.price,
             stock=product_data.stock,
-            image_url=product_data.image_url
+            image_url=product_data.image_url,
+            category=product_data.category
         )
         db.add(new_product)
         db.commit()

@@ -10,6 +10,7 @@ class ProductCreate(BaseModel):
     price: float
     stock: int = 0
     image_url: Optional[str] = None
+    category: Optional[str] = None
 
 
 # Schema for updating a product (all fields optional)
@@ -19,6 +20,7 @@ class ProductUpdate(BaseModel):
     price: Optional[float] = None
     stock: Optional[int] = None
     image_url: Optional[str] = None
+    category: Optional[str] = None
 
 
 # Schema for returning product data (what the API sends back)
@@ -29,6 +31,7 @@ class ProductOut(BaseModel):
     price: float
     stock: int
     image_url: Optional[str]
+    category: Optional[str]
     created_at: datetime
 
     model_config = {"from_attributes": True}

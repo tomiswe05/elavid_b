@@ -13,6 +13,7 @@ class Product(Base):
     price = Column(Float, nullable=False)
     stock = Column(Integer, default=0)  # Available quantity in inventory
     image_url = Column(String, nullable=True)  # URL to product image
+    category = Column(String, nullable=True)
     created_at = Column(DateTime(timezone=True), server_default=func.now())
 
     # One product can appear in many carts

@@ -1,0 +1,40 @@
+name: Deploy Backend to Railway
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Verify app imports
+        run: python -c "from app.models.product import Product; from app.schemas.product import ProductOut; print('All imports OK')"
+        env:
+          DATABASE_URL: "postgresql://test:test@localhost:5432/test"
+          FIREBASE_JSON: '{"type":"service_account","project_id":"test"}'
+          STRIPE_SECRET_KEY: "sk_test_fake"
+
+  deploy:
+    needs: validate
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Railway CLI
+        run: npm install -g @railway/cli
+
+      - name: Deploy to Railway
+        run: railway up --service ${{ secrets.RAILWAY_SERVICE_ID }}
+        env:
+          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
