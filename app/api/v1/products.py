@@ -1,3 +1,4 @@
+import os
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from typing import List
@@ -8,8 +9,7 @@ from app.schemas.product import ProductCreate, ProductUpdate, ProductOut
 
 router = APIRouter(prefix="/products", tags=["Products"])
 
-# TODO: Replace with proper admin check (e.g. check user role in database)
-ADMIN_UIDS = []
+ADMIN_UIDS = [uid.strip() for uid in os.getenv("ADMIN_UIDS", "").split(",") if uid.strip()]
 
 
 @router.get(
